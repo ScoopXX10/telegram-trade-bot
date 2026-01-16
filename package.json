@@ -1,0 +1,24 @@
+{
+  "name": "telegram-trade-bot",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["telegram", "trading", "bitunix", "bot"],
+  "author": "",
+  "license": "ISC",
+  "description": "Telegram bot for one-click trade execution on Bitunix",
+  "dependencies": {
+    "@types/node": "^25.0.9",
+    "axios": "^1.13.2",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^17.2.3",
+    "telegraf": "^4.16.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
