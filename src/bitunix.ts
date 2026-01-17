@@ -159,6 +159,31 @@ export class BitunixClient {
       throw error;
     }
   }
+
+  /**
+   * Set leverage for a trading pair
+   */
+  async setLeverage(symbol: string, leverage: number): Promise<BitunixResponse<unknown>> {
+    const endpoint = '/api/v1/futures/account/change_leverage';
+    const params = {
+      symbol,
+      leverage,
+      marginCoin: 'USDT',
+    };
+    const body = JSON.stringify(params);
+    const headers = this.buildHeaders('', body);
+
+    try {
+      const response = await this.client.post(endpoint, params, { headers });
+      return response.data as BitunixResponse<unknown>;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('Bitunix set leverage error:', error.response.data);
+        return error.response.data as BitunixResponse<unknown>;
+      }
+      throw error;
+    }
+  }
 }
 
 /**

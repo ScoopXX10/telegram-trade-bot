@@ -40,6 +40,16 @@ export async function executeTrade(
   const useMarketOrder = options?.useMarketOrder ?? false;
 
   try {
+    // Set leverage before placing the order
+    console.log(`Setting leverage to ${leverage}x for ${signal.symbol}...`);
+    const leverageResponse = await client.setLeverage(signal.symbol, leverage);
+    if (leverageResponse.code !== 0) {
+      console.error('Failed to set leverage:', leverageResponse.msg);
+      // Continue anyway - the order might still work with existing leverage
+    } else {
+      console.log(`Leverage set to ${leverage}x successfully`);
+    }
+
     // Calculate quantity
     const qty = calculateQuantity(positionSize, signal.entryPrice, leverage);
 
