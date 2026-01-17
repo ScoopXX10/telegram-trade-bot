@@ -56,10 +56,15 @@ export interface TradeResult {
 // Bot configuration
 export interface BotConfig {
   telegramToken: string;
-  bitunixApiKey: string;
-  bitunixApiSecret: string;
+  botUsername: string;
+  encryptionKey: string;
   defaultLeverage: number;
   defaultPositionSizeUsdt: number;
-  allowedUserIds: number[];
-  autoExecute: boolean;
+  adminUserIds: number[]; // Admins can manage the bot
+}
+
+// Registration state for multi-step registration flow
+export interface RegistrationState {
+  step: 'awaiting_api_key' | 'awaiting_api_secret';
+  apiKey?: string;
 }

@@ -18,26 +18,19 @@ function getEnvNumber(name: string, defaultValue: number): number {
   return isNaN(parsed) ? defaultValue : parsed;
 }
 
-function getEnvBoolean(name: string, defaultValue: boolean): boolean {
-  const value = process.env[name]?.toLowerCase();
-  if (!value) return defaultValue;
-  return value === 'true' || value === '1';
-}
-
-function getAllowedUserIds(): number[] {
-  const value = process.env['ALLOWED_USER_IDS'];
+function getAdminUserIds(): number[] {
+  const value = process.env['ADMIN_USER_IDS'];
   if (!value) return [];
   return value.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id));
 }
 
 export const config: BotConfig = {
   telegramToken: getEnvVar('TELEGRAM_BOT_TOKEN'),
-  bitunixApiKey: getEnvVar('BITUNIX_API_KEY'),
-  bitunixApiSecret: getEnvVar('BITUNIX_API_SECRET'),
+  botUsername: getEnvVar('BOT_USERNAME'),
+  encryptionKey: getEnvVar('ENCRYPTION_KEY'),
   defaultLeverage: getEnvNumber('DEFAULT_LEVERAGE', 10),
   defaultPositionSizeUsdt: getEnvNumber('DEFAULT_POSITION_SIZE_USDT', 100),
-  allowedUserIds: getAllowedUserIds(),
-  autoExecute: getEnvBoolean('ENABLE_AUTO_EXECUTE', false),
+  adminUserIds: getAdminUserIds(),
 };
 
 // Bitunix API base URL

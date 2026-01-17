@@ -1,4 +1,4 @@
-import { bitunixClient } from './bitunix';
+import { BitunixClient } from './bitunix';
 import { config } from './config';
 import { TradeSignal, TradeResult, BitunixOrderParams } from './types';
 
@@ -27,6 +27,7 @@ function generateClientId(): string {
  * Execute a trade based on a parsed signal
  */
 export async function executeTrade(
+  client: BitunixClient,
   signal: TradeSignal,
   options?: {
     positionSizeUsdt?: number;
@@ -71,8 +72,8 @@ export async function executeTrade(
 
     console.log('Placing order:', JSON.stringify(orderParams, null, 2));
 
-    // Place the order
-    const response = await bitunixClient.placeOrder(orderParams);
+    // Place the order using the provided client
+    const response = await client.placeOrder(orderParams);
 
     if (response.code === 0) {
       console.log('Order placed successfully:', response.data);
@@ -107,10 +108,11 @@ export async function executeTrade(
  * Execute a market order immediately
  */
 export async function executeMarketTrade(
+  client: BitunixClient,
   signal: TradeSignal,
   positionSizeUsdt?: number
 ): Promise<TradeResult> {
-  return executeTrade(signal, { positionSizeUsdt, useMarketOrder: true });
+  return executeTrade(client, signal, { positionSizeUsdt, useMarketOrder: true });
 }
 
 /**

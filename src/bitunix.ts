@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import crypto from 'crypto';
-import { config, BITUNIX_API_BASE } from './config';
+import { BITUNIX_API_BASE } from './config';
 import { BitunixOrderParams, BitunixResponse, BitunixOrderResponse } from './types';
 
 /**
@@ -12,9 +12,9 @@ export class BitunixClient {
   private apiSecret: string;
   private client: AxiosInstance;
 
-  constructor() {
-    this.apiKey = config.bitunixApiKey;
-    this.apiSecret = config.bitunixApiSecret;
+  constructor(apiKey: string, apiSecret: string) {
+    this.apiKey = apiKey;
+    this.apiSecret = apiSecret;
     this.client = axios.create({
       baseURL: BITUNIX_API_BASE,
       timeout: 10000,
@@ -161,4 +161,9 @@ export class BitunixClient {
   }
 }
 
-export const bitunixClient = new BitunixClient();
+/**
+ * Create a Bitunix client for a specific user's API credentials
+ */
+export function createBitunixClient(apiKey: string, apiSecret: string): BitunixClient {
+  return new BitunixClient(apiKey, apiSecret);
+}
